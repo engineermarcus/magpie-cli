@@ -1,0 +1,2 @@
+[console_scripts]
+magpie = magpie_cli.main:main

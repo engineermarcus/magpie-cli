@@ -1,0 +1,96 @@
+Metadata-Version: 2.4
+Name: magpie-cli
+Version: 1.0.0
+Summary: Magpie CLI — High speed movie and TV show terminal downloader powered by aria2c
+Author: Magpie Team
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: httpx>=0.24.0
+Requires-Dist: rich>=13.0.0
+Requires-Dist: imageio-ffmpeg>=0.4.9
+Dynamic: requires-python
+
+# Magpie CLI 🐦
+
+A terminal CLI to search and download movies and TV shows as high-speed MP4 video files. Integrates directly with the Magpie Client Server for authentication, device fingerprinting, and coin billing rules. Powered by `aria2c` with maximum parallel connections and split workers.
+
+---
+
+## Features
+
+- **Terminal Device Fingerprinting**: Deterministic hardware identification using machine-id, DMI board UUID, MAC address, and system characteristics. Survives restarts and maintains durable identity without web browser cookies or storage.
+- **Client Server Billing Integration**: Automatically registers terminal devices with the Magpie billing service, credits welcome bonus coins, and enforces server-side billing rules (standard 2 coins per download with a 72-hour free re-download window).
+- **Direct MP4 Downloads**: Downloads actual standalone `.mp4` video files instead of streaming playlists.
+- **Interactive Step Wizard**:
+  1. **Search**: Search movies and TV shows via TMDB.
+  2. **Inspect**: Read titles, years, ratings, overviews, and clickable poster thumbnails (with `o <#>` shortcut to preview in browser).
+  3. **Pick Item**: Select movie or TV show.
+  4. **TV Flow**: Pick season → pick episode → pick resolution.
+  5. **Movie Flow**: Pick resolution (4K, 1080p, 720p, 480p).
+  6. **Aria2c Acceleration**: High-speed parallel download with 16 connections and 16 split workers into `./downloads`.
+
+---
+
+## Installation
+
+Run the universal installer (automatically handles system dependencies like `aria2`, Python packaging, and PEP 668):
+
+```bash
+cd magpie-cli
+./install.sh
+```
+
+Or install manually via pip:
+
+```bash
+cd magpie-cli
+pip3 install -e .
+```
+
+---
+
+## Quick Usage
+
+### Download a movie or TV show
+```bash
+magpie --download "breaking bad"
+# or shorthand
+magpie "interstellar"
+```
+
+### Check coin balance & billing
+```bash
+magpie --balance
+```
+
+### View device hardware fingerprint details
+```bash
+magpie --device
+```
+
+### Customize download options
+```bash
+# Save to custom directory
+magpie --download "inception" --dir ~/Movies
+
+# Adjust parallel connections and workers
+magpie --download "the dark knight" --connections 16 --workers 16
+
+# Connect to custom or local Magpie server
+magpie --download "avatar" --server http://127.0.0.1:7860
+```
+
+---
+
+## How Terminal Device Fingerprinting Works
+
+Browsers rely on cookies, local storage, and Canvas/WebGL attributes. In terminal environments, `magpie_cli.device` reads system-level hardware signals:
+1. Linux `/etc/machine-id` or `/var/lib/dbus/machine-id` (system installation UUID).
+2. DMI System/Product UUID (`/sys/class/dmi/id/product_uuid`).
+3. Hardware network node MAC address (`uuid.getnode()`).
+4. Machine architecture and hostname.
+
+These signals are salted and hashed via SHA-256 into a deterministic identifier (`cli_<hash>`), and persisted securely at `~/.config/magpie/session.json` along with the user account token. This guarantees:
+- Same physical machine always maps to the same device ID even across reboots or terminal windows.
+- New terminal installations receive their 20 welcome bonus coins on initial registration.
+- Billing, watch history, and download permissions persist accurately across sessions.

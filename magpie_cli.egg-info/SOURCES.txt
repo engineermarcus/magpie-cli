@@ -1,0 +1,15 @@
+README.md
+pyproject.toml
+setup.py
+magpie_cli/__init__.py
+magpie_cli/api.py
+magpie_cli/device.py
+magpie_cli/downloader.py
+magpie_cli/main.py
+magpie_cli/ui.py
+magpie_cli.egg-info/PKG-INFO
+magpie_cli.egg-info/SOURCES.txt
+magpie_cli.egg-info/dependency_links.txt
+magpie_cli.egg-info/entry_points.txt
+magpie_cli.egg-info/requires.txt
+magpie_cli.egg-info/top_level.txt

@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "magpie-cli"
+version = "1.0.0"
+description = "Magpie CLI — High speed movie and TV show terminal downloader powered by aria2c"
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [
+    { name = "Magpie Team" }
+]
+dependencies = [
+    "httpx>=0.24.0",
+    "rich>=13.0.0",
+    "imageio-ffmpeg>=0.4.9",
+]
+
+[project.scripts]
+magpie = "magpie_cli.main:main"
